@@ -2,9 +2,9 @@
 
 namespace InventorySystem.Application.Interfaces.UnitOfWork
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
-        IProductRepository Products { get; }
+        IGenericRepository<T> Repository<T>() where T : class;
         Task<int> SaveChangesAsync();
         Task BeginTransactionAsync();
         Task CommitAsync();
