@@ -3,6 +3,10 @@
 bin/
 obj/
 
+### Development appsettings ###
+# Ignore development appsettings files
+appsettings.Development.json
+
 # Common node modules locations
 /node_modules
 /wwwroot/node_modules
