@@ -27,5 +27,18 @@ namespace InventorySystem.Api.Controllers
             }
             return BadRequest(response);
         }
+
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ProductWithPriceDto>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProductsWithPrice(int id)
+        {
+            var response = await _productRepository.GetProductDtoWithDetailsAsync(id);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
     }
 }

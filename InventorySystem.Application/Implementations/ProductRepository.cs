@@ -47,9 +47,39 @@ namespace InventorySystem.Application.Implementations
             throw new NotImplementedException();
         }
 
-        public Task<ApiResponse<ProductDto?>> GetProductDtoWithDetailsAsync(int productId)
+        public async Task<ApiResponse<ProductWithPriceDto?>> GetProductDtoWithDetailsAsync(int productId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var product = await _unitOfWork.Repository<Product>().GetFirstOrDefaultAsync(
+                    p => p.Id == productId,
+                    p => p.Prices
+                );
+
+                if (product == null)
+                    return new ApiResponse<ProductWithPriceDto?>(false, null!, Messages.ProductNotFound);
+
+                var dto = new ProductWithPriceDto
+                {
+                    Id = productId,
+                    Name = product.Name,
+                    Description = product.Description!,
+                    Prices = product.Prices.Select(price => new ProductPriceDto
+                    {
+                        Id = price.Id,
+                        ProductId = price.ProductId,
+                        Price = price.Price,
+                        BatchNumber = price.BatchNumber,
+                        EntryDate = price.EntryDate
+                    }).ToList()
+                };
+
+                return new ApiResponse<ProductWithPriceDto?>(true, dto, Messages.ProductsRetrieved);
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<ProductWithPriceDto?>(false, null!, Messages.ErrorOccurred);
+            }
         }
 
         public Task<ApiResponse<bool>> UpdateAsync(ProductDto product)

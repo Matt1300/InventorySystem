@@ -5,7 +5,7 @@ namespace InventorySystem.Application.Interfaces
 {
     public interface IProductRepository
     {
-        Task<ApiResponse<ProductDto?>> GetProductDtoWithDetailsAsync(int productId);
+        Task<ApiResponse<ProductWithPriceDto?>> GetProductDtoWithDetailsAsync(int productId);
         Task<ApiResponse<IEnumerable<ProductDto>>> GetAllAsync();
         Task<ApiResponse<ProductDto?>> GetByIdAsync(int id);
         Task<ApiResponse<bool>> AddAsync(ProductDto product);
