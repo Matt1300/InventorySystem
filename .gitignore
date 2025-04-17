@@ -478,3 +478,4 @@ FodyWeavers.xsd
 
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
+/InventorySystem.Api/appsettings.Development.json
