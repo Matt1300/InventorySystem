@@ -5,11 +5,11 @@ namespace InventorySystem.Application.Interfaces
 {
     public interface IProductRepository
     {
-        Task<ApiResponse<ProductWithPriceDto?>> GetProductDtoWithDetailsAsync(int productId);
-        Task<ApiResponse<IEnumerable<ProductDto>>> GetAllAsync();
-        Task<ApiResponse<ProductDto?>> GetByIdAsync(int id);
-        Task<ApiResponse<bool>> AddAsync(ProductDto product);
-        Task<ApiResponse<bool>> UpdateAsync(ProductDto product);
-        Task<ApiResponse<bool>> DeleteAsync(int id);
+        Task<ApiResponse<ProductWithPriceDto?>> GetProductWithDetails(int productId);
+        Task<ApiResponse<IEnumerable<ProductDto>>> GetAll();
+        Task<ApiResponse<ProductDto?>> GetById(int id);
+        Task<ApiResponse<bool>> AddProduct(ProductDto product);
+        Task<ApiResponse<bool>> UpdateProduct(ProductDto product);
+        Task<ApiResponse<bool>> DeleteProduct(int id);
     }
 }

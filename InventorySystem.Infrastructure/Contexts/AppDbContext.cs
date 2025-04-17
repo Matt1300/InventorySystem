@@ -16,6 +16,10 @@ namespace InventorySystem.Infrastructure.Contexts
                 .HasOne(p => p.Product)
                 .WithMany(p => p.Prices)
                 .HasForeignKey(p => p.ProductId);
+
+            modelBuilder.Entity<ProductPrice>()
+                .Property(p => p.Price)
+                .HasPrecision(18,2);
         }
     }
 }

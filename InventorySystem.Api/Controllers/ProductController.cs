@@ -9,9 +9,11 @@ namespace InventorySystem.Api.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductRepository _productRepository;
-        public ProductController(IProductRepository productRepository)
+        private readonly ILogger<ProductController> _logger;
+        public ProductController(IProductRepository productRepository, ILogger<ProductController> logger)
         {
             _productRepository = productRepository;
+            _logger = logger;
         }
 
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ProductDto>))]
@@ -19,7 +21,8 @@ namespace InventorySystem.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var response = await _productRepository.GetAllAsync();
+            _logger.LogInformation("Obteniendo todos los productos...");
+            var response = await _productRepository.GetAll();
             if (response.Success)
             {
                 return Ok(response);
@@ -32,7 +35,8 @@ namespace InventorySystem.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProductsWithPrice(int id)
         {
-            var response = await _productRepository.GetProductDtoWithDetailsAsync(id);
+            _logger.LogInformation("Obteniendo el producto con id {id}", id);
+            var response = await _productRepository.GetProductWithDetails(id);
             if (response.Success)
             {
                 return Ok(response);

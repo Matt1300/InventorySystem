@@ -5,8 +5,23 @@ using InventorySystem.Application.Interfaces.UnitOfWork;
 using InventorySystem.Infrastructure.Contexts;
 using InventorySystem.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
+using YourNamespace.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, services, configuration) =>
+    configuration
+        .ReadFrom.Configuration(context.Configuration)
+        .ReadFrom.Services(services)
+        .Enrich.FromLogContext()
+        .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] ({RequestId}) {Message:lj}{NewLine}{Exception}")
+        .WriteTo.File(
+            path: "Logs/log-.txt",
+            rollingInterval: RollingInterval.Day,
+            outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] ({RequestId}) {Message:lj}{NewLine}{Exception}"
+        )
+);
 
 // Add services to the container.
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -30,6 +45,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+app.UseMiddleware<SerilogRequestEnricherMiddleware>();
+
+app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 

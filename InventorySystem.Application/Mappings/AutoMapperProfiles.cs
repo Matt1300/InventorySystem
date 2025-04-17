@@ -10,6 +10,7 @@ namespace InventorySystem.Application.Mappings
         public AutoMapperProfiles() 
         {
             CreateMap<Product, ProductDto>().ReverseMap();
+            CreateMap<Product, ProductWithPriceDto>().ReverseMap();
             CreateMap<ProductPrice, ProductPriceDto>().ReverseMap();
             CreateMap<User, UserDto>().ReverseMap();
         }
