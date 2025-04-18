@@ -12,7 +12,8 @@ namespace InventorySystem.Application.Mappings
             CreateMap<Product, ProductDto>().ReverseMap();
             CreateMap<Product, ProductWithPriceDto>().ReverseMap();
             CreateMap<ProductPrice, ProductPriceDto>().ReverseMap();
-            CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<User, UserDto>().ReverseMap()
+                .ForMember(dest => dest.PasswordHash, opt => opt.Ignore());
         }
     }
 }

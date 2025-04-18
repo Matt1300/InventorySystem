@@ -1,8 +1,8 @@
 ﻿namespace InventorySystem.Application.DTOs.Auth
 {
-    public class LoginResponseDto
+    public class RefreshTokenRequestDto
     {
-        public required string Token { get; set; }
+        public required int Id { get; set; }
         public required string RefreshToken { get; set; }
     }
 }
