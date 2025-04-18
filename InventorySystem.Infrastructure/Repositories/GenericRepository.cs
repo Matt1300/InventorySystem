@@ -7,10 +7,10 @@ namespace InventorySystem.Infrastructure.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        protected readonly AppDbContext _context;
+        protected readonly InventoryDbContext _context;
         public readonly DbSet<T> _dbSet;
 
-        public GenericRepository(AppDbContext context)
+        public GenericRepository(InventoryDbContext context)
         {
             _context = context;
             _dbSet = _context.Set<T>();

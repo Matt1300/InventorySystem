@@ -7,11 +7,11 @@ namespace InventorySystem.Infrastructure.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly AppDbContext _context;
+        private readonly InventoryDbContext _context;
         private IDbContextTransaction? _transaction;
         private readonly Dictionary<Type, object> _repositories = new();
 
-        public UnitOfWork(AppDbContext context)
+        public UnitOfWork(InventoryDbContext context)
         {
             _context = context;
         }

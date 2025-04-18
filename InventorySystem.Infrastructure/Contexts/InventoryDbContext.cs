@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InventorySystem.Infrastructure.Contexts
 {
-    public class AppDbContext : DbContext
+    public class InventoryDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+        public InventoryDbContext(DbContextOptions<InventoryDbContext> options) : base(options) { }
         public DbSet<User> Users { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductPrice> ProductPrices { get; set; }
