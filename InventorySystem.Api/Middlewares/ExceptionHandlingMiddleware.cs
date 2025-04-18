@@ -33,8 +33,7 @@ namespace YourNamespace.Middleware
         {
             var result = JsonSerializer.Serialize(new
             {
-                message = "Ocurrió un error interno en el servidor.",
-                detail = exception.Message
+                message = "Ocurrió un error interno en el servidor."
             });
 
             context.Response.ContentType = "application/json";
