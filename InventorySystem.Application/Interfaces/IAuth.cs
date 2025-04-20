@@ -6,7 +6,7 @@ namespace InventorySystem.Application.Interfaces
 {
     public interface IAuth
     {
-        Task<ApiResponse<string>> Register(UserDto user);
+        Task<ApiResponse<string>> Register(NewUserDto user);
         Task<ApiResponse<LoginResponseDto>> Login(UserDto user);
         Task<ApiResponse<LoginResponseDto>> ValidateAndRefreshToken(RefreshTokenRequestDto request);
     }

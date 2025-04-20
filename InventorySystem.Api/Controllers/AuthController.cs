@@ -21,10 +21,10 @@ namespace InventorySystem.Api.Controllers
             _logger = logger;
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ProductDto>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<AddProductDto>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register([FromBody] UserDto request)
+        public async Task<ActionResult<User>> Register([FromBody] NewUserDto request)
         {
             _logger.LogInformation("Registrando nuevo usuario...");
             var response = await _auth.Register(request);
@@ -35,19 +35,15 @@ namespace InventorySystem.Api.Controllers
             return BadRequest(response);
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ProductDto>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<AddProductDto>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost("login")]
         public async Task<ActionResult<LoginResponseDto>> Login([FromBody] UserDto request)
         {
             _logger.LogInformation("Iniciando Sesión...");
             var response = await _auth.Login(request);
-            if (response.Success)
-            {
-                return Ok(response);
-            }
-            return BadRequest(response);
-
+            
+            return Ok(response);
         }
 
         [HttpPost("validate-refresh-token")]

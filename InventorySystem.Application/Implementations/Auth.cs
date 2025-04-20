@@ -32,7 +32,7 @@ namespace InventorySystem.Application.Implementations
             _jwtSettings = jwtOptions.Value;
         }
 
-        public async Task<ApiResponse<string>> Register(UserDto user)
+        public async Task<ApiResponse<string>> Register(NewUserDto user)
         {
             try
             {
@@ -103,7 +103,8 @@ namespace InventorySystem.Application.Implementations
            {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, user.Role)
+                new Claim(ClaimTypes.Role, user.Role),
+                new Claim("FullName", user.FullName)
            };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);

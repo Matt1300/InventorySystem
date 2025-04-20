@@ -1,10 +1,12 @@
 ﻿using InventorySystem.Application.DTOs.Product;
 using InventorySystem.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InventorySystem.Api.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class ProductController : ControllerBase
     {
@@ -16,7 +18,7 @@ namespace InventorySystem.Api.Controllers
             _logger = logger;
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ProductDto>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<AddProductDto>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet]
         public async Task<IActionResult> GetAll()
@@ -37,6 +39,48 @@ namespace InventorySystem.Api.Controllers
         {
             _logger.LogInformation("Obteniendo el producto con id {id}", id);
             var response = await _productRepository.GetProductWithDetails(id);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AddProductDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpPost]
+        public async Task<IActionResult> AddNewProduct(AddProductDto product)
+        {
+            _logger.LogInformation("Ingresando nuevo producto...");
+            var response = await _productRepository.AddProduct(product);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AddProductDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> UpdateProduct(int id, AddProductDto product)
+        {
+            _logger.LogInformation("Actualizando producto...");
+            var response = await _productRepository.UpdateProduct(id, product);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            _logger.LogInformation("Eliminando producto...");
+            var response = await _productRepository.DeleteProduct(id);
             if (response.Success)
             {
                 return Ok(response);

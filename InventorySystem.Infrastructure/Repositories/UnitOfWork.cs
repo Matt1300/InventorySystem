@@ -44,7 +44,6 @@ namespace InventorySystem.Infrastructure.Repositories
         {
             if (_transaction != null)
             {
-                await _context.SaveChangesAsync();
                 await _transaction.CommitAsync();
                 await _transaction.DisposeAsync();
                 _transaction = null;
