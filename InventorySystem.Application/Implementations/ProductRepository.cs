@@ -131,6 +131,7 @@ namespace InventorySystem.Application.Implementations
                 existingProduct.Name = product.Name;
                 existingProduct.Description = product.Description;
                 existingProduct.Code = product.Code;
+                existingProduct.IsActive = product.IsActive;
 
                 _unitOfWork.Repository<Product>().Update(existingProduct);
                 await _unitOfWork.SaveChangesAsync();
@@ -158,15 +159,19 @@ namespace InventorySystem.Application.Implementations
                 if (findProduct == null)
                     return new ApiResponse<bool>(false, false, Messages.ProductNotFound);
 
-                var productPrices = await _unitOfWork.Repository<ProductPrice>()
-                    .GetQueryable()
-                    .Where(pp => pp.ProductId == id)
-                    .ToListAsync();
+                var productPrice = await _unitOfWork.Repository<ProductPrice>().GetFirstOrDefaultAsync(p => p.ProductId == id);
+                if (productPrice == null)
+                {
+                    _unitOfWork.Repository<Product>().Delete(findProduct);
+                    await _unitOfWork.SaveChangesAsync();
+                    return new ApiResponse<bool>(true, true, Messages.ProductDeleted);
+                }
 
-                _unitOfWork.Repository<Product>().Delete(findProduct);
+                findProduct.IsActive = false;
+                _unitOfWork.Repository<Product>().Update(findProduct);
                 await _unitOfWork.SaveChangesAsync();
 
-                return new ApiResponse<bool>(true, true, Messages.ProductDeleted);
+                return new ApiResponse<bool>(true, true, Messages.ProductStatusModifier);
             }
             catch (Exception ex)
             {

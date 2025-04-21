@@ -9,6 +9,7 @@
         public const string ProductNotFound = "Producto no encontrado";
         public const string ErrorOccurred = "Ocurrió un error inesperado";
         public const string ProductDeleted = "Producto Eliminado";
+        public const string ProductStatusModifier = "Este producto se marcó como inactivo porque ya tenía registros anteriores.";
         public const string UserRegistered = "Usuario registrado con éxito";
         public const string UserNotFound = "Usuario no encontrado";
         public const string SuccessLogin = "Login Exitoso";
