@@ -3,7 +3,7 @@
     public static class Messages
     {
         public const string ProductsRetrieved = "Productos obtenidos correctamente";
-        public const string EmptyRequest = "El producto es nulo";
+        public const string EmptyRequest = "Faltan datos o el producto está vacío";
         public const string ProductAdded = "Producto agregado con éxito";
         public const string ProductUpdated = "Producto actualizado con éxito";
         public const string ProductNotFound = "Producto no encontrado";

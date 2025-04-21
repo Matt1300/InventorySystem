@@ -18,7 +18,7 @@ namespace InventorySystem.Api.Controllers
             _logger = logger;
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<AddProductDto>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UpdateProductDto>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet]
         public async Task<IActionResult> GetAll()
@@ -46,24 +46,21 @@ namespace InventorySystem.Api.Controllers
             return BadRequest(response);
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AddProductDto))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateProductDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> AddNewProduct(AddProductDto product)
+        public async Task<IActionResult> AddNewProduct(NewProductDto product)
         {
             _logger.LogInformation("Ingresando nuevo producto...");
             var response = await _productRepository.AddProduct(product);
-            if (response.Success)
-            {
-                return Ok(response);
-            }
-            return BadRequest(response);
+
+            return Ok(response);
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AddProductDto))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateProductDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPatch("{id}")]
-        public async Task<IActionResult> UpdateProduct(int id, AddProductDto product)
+        public async Task<IActionResult> UpdateProduct(int id, UpdateProductDto product)
         {
             _logger.LogInformation("Actualizando producto...");
             var response = await _productRepository.UpdateProduct(id, product);

@@ -7,8 +7,8 @@ namespace InventorySystem.Application.Interfaces
     {
         Task<ApiResponse<ProductWithPriceDto?>> GetProductWithDetails(int productId);
         Task<ApiResponse<IEnumerable<ProductQuantityDto>>> GetAll();
-        Task<ApiResponse<ProductDto>> AddProduct(AddProductDto product);
-        Task<ApiResponse<ProductDto>> UpdateProduct(int id, AddProductDto product);
+        Task<ApiResponse<ProductDto>> AddProduct(NewProductDto product);
+        Task<ApiResponse<ProductDto>> UpdateProduct(int id, UpdateProductDto product);
         Task<ApiResponse<bool>> DeleteProduct(int id);
     }
 }

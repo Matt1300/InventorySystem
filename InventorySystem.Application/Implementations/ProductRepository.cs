@@ -88,7 +88,7 @@ namespace InventorySystem.Application.Implementations
 
 
 
-        public async Task<ApiResponse<ProductDto>> AddProduct(AddProductDto product)
+        public async Task<ApiResponse<ProductDto>> AddProduct(NewProductDto product)
         {
             if (product is null || string.IsNullOrEmpty(product.Name) || string.IsNullOrEmpty(product.Description))
                 return new ApiResponse<ProductDto>(false, null!, Messages.EmptyRequest);
@@ -116,7 +116,7 @@ namespace InventorySystem.Application.Implementations
         }
 
 
-        public async Task<ApiResponse<ProductDto>> UpdateProduct(int id, AddProductDto product)
+        public async Task<ApiResponse<ProductDto>> UpdateProduct(int id, UpdateProductDto product)
         {
             if (product is null)
                 return new ApiResponse<ProductDto>(false, null!, Messages.EmptyRequest);

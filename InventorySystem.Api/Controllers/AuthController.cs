@@ -21,7 +21,7 @@ namespace InventorySystem.Api.Controllers
             _logger = logger;
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<AddProductDto>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UpdateProductDto>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost("register")]
         public async Task<ActionResult<User>> Register([FromBody] NewUserDto request)
@@ -35,7 +35,7 @@ namespace InventorySystem.Api.Controllers
             return BadRequest(response);
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<AddProductDto>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UpdateProductDto>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost("login")]
         public async Task<ActionResult<LoginResponseDto>> Login([FromBody] UserDto request)
