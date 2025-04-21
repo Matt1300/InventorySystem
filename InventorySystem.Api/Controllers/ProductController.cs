@@ -25,11 +25,9 @@ namespace InventorySystem.Api.Controllers
         {
             _logger.LogInformation("Obteniendo todos los productos...");
             var response = await _productRepository.GetAll();
-            if (response.Success)
-            {
-                return Ok(response);
-            }
-            return BadRequest(response);
+
+            return Ok(response);
+
         }
 
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ProductWithPriceDto>))]
@@ -39,11 +37,9 @@ namespace InventorySystem.Api.Controllers
         {
             _logger.LogInformation("Obteniendo el producto con id {id}", id);
             var response = await _productRepository.GetProductWithDetails(id);
-            if (response.Success)
-            {
-                return Ok(response);
-            }
-            return BadRequest(response);
+
+            return Ok(response);
+
         }
 
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateProductDto))]
@@ -64,11 +60,9 @@ namespace InventorySystem.Api.Controllers
         {
             _logger.LogInformation("Actualizando producto...");
             var response = await _productRepository.UpdateProduct(id, product);
-            if (response.Success)
-            {
-                return Ok(response);
-            }
-            return BadRequest(response);
+
+            return Ok(response);
+
         }
 
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
@@ -78,11 +72,9 @@ namespace InventorySystem.Api.Controllers
         {
             _logger.LogInformation("Eliminando producto...");
             var response = await _productRepository.DeleteProduct(id);
-            if (response.Success)
-            {
-                return Ok(response);
-            }
-            return BadRequest(response);
+
+            return Ok(response);
+
         }
     }
 }
