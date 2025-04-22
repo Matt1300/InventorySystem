@@ -87,6 +87,37 @@ namespace InventorySystem.Application.Implementations
         }
 
 
+        public async Task<ApiResponse<IEnumerable<SearchProductDto>>> SearchProduct(string term)
+        {
+            if (string.IsNullOrEmpty(term))
+                return new ApiResponse<IEnumerable<SearchProductDto>>(false, null!, Messages.EmptyRequest);
+
+            try
+            {
+                var products = await _unitOfWork.Repository<Product>()
+                    .GetQueryable()
+                    .Where(p => p.Name.ToLower().Contains(term.ToLower()) && p.IsActive)
+                    .OrderBy(p => p.Name)
+                    .Take(10)
+                    .Select(p => new SearchProductDto
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                    })
+                    .ToListAsync();
+
+                if (products == null || !products.Any())
+                    return new ApiResponse<IEnumerable<SearchProductDto>>(false, null!, Messages.ProductNotFound);
+
+                return new ApiResponse<IEnumerable<SearchProductDto>>(true, products, Messages.ProductsRetrieved);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al buscar el producto: {Message}", ex.Message);
+                return new ApiResponse<IEnumerable<SearchProductDto>>(false, null!, Messages.ErrorOccurred);
+            }
+        }
+
 
         public async Task<ApiResponse<ProductDto>> AddProduct(NewProductDto product)
         {
@@ -223,5 +254,6 @@ namespace InventorySystem.Application.Implementations
             var newId = lastId + 1;
             return $"{PRODUCT_PREFIX}{newId:D4}";
         }
+
     }
 }

@@ -18,7 +18,7 @@ namespace InventorySystem.Api.Controllers
             _logger = logger;
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UpdateProductDto>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ProductQuantityDto>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet]
         public async Task<IActionResult> GetAll()
@@ -30,7 +30,7 @@ namespace InventorySystem.Api.Controllers
 
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ProductWithPriceDto>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProductWithPriceDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProductsWithPrice(int id)
@@ -42,7 +42,17 @@ namespace InventorySystem.Api.Controllers
 
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateProductDto))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<SearchProductDto>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchProduct([FromQuery] string term)
+        {
+            _logger.LogInformation("Buscando productos con el término {term}", term);
+            var response = await _productRepository.SearchProduct(term);
+            return Ok(response);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProductDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
         public async Task<IActionResult> AddNewProduct(NewProductDto product)
@@ -53,7 +63,7 @@ namespace InventorySystem.Api.Controllers
             return Ok(response);
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateProductDto))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProductDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPatch("{id}")]
         public async Task<IActionResult> UpdateProduct(int id, UpdateProductDto product)
