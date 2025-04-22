@@ -62,6 +62,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IAuth, Auth>();
+builder.Services.AddScoped<IBatch, Batch>();
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
