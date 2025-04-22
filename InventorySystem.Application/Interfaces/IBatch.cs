@@ -9,5 +9,6 @@ namespace InventorySystem.Application.Interfaces
         Task<ApiResponse<BatchDto>> AddBatch(CreateBatchDto batch);
         Task<ApiResponse<BatchDto>> UpdateBatch(int id, UpdateBatchDto batch);
         Task<ApiResponse<bool>> DeleteBatch(int id);
+        Task<ApiResponse<int>> GetLowStockBatches();
     }
 }

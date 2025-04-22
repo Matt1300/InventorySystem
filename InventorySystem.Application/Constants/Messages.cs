@@ -23,5 +23,6 @@
         public const string ValidToken = "Nuevo refresh token generado";
         public const string BatchAlreadyExists = "Ya existe un lote con ese código";
         public const string BatchAdded = "Nuevo lote agreagado";
+        public const string LowStockBatchesRetrieved = "Cantidad de productos con bajo stock obtenido";
     }
 }

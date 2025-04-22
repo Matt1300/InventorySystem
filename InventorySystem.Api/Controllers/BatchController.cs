@@ -1,9 +1,11 @@
 ﻿using InventorySystem.Application.DTOs.Batch;
 using InventorySystem.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InventorySystem.Api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class BatchController : ControllerBase
@@ -23,6 +25,17 @@ namespace InventorySystem.Api.Controllers
         {
             _logger.LogInformation("Obteniendo todos los lotes...");
             var response = await _batch.GetAllBatches();
+
+            return Ok(response);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpGet("lowStock")]
+        public async Task<IActionResult> GetLowStockBatches()
+        {
+            _logger.LogInformation("Obteniendo lotes con bajo stock...");
+            var response = await _batch.GetLowStockBatches();
 
             return Ok(response);
         }

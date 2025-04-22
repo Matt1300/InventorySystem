@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using InventorySystem.Application.Constants;
 using InventorySystem.Application.DTOs.Batch;
-using InventorySystem.Application.DTOs.Product;
 using InventorySystem.Application.Interfaces;
 using InventorySystem.Application.Interfaces.UnitOfWork;
 using InventorySystem.Application.Utilities;
@@ -32,6 +31,7 @@ namespace InventorySystem.Application.Implementations
                 var batches = await _unitOfWork.Repository<ProductPrice>()
                     .GetQueryable()
                     .Include(b => b.Product)
+                    .OrderByDescending(pp => pp.EntryDate)
                     .ToListAsync();
 
                 var batchesDto = _mapper.Map<IEnumerable<BatchDto>>(batches);
@@ -76,6 +76,25 @@ namespace InventorySystem.Application.Implementations
                 return new ApiResponse<BatchDto>(false, null!, Messages.ErrorOccurred);
             }
 
+        }
+
+        public async Task<ApiResponse<int>> GetLowStockBatches()
+        {
+            try
+            {
+                int lowStockProducts = await _unitOfWork.Repository<ProductPrice>()
+                    .GetQueryable()
+                    .GroupBy(pp => pp.ProductId)
+                    .Where(g => g.Sum(p => p.Quantity) < 5)
+                    .CountAsync();
+
+                return new ApiResponse<int>(true, lowStockProducts, Messages.LowStockBatchesRetrieved);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al obtener los productos con bajo stock: {Message}", ex.Message);
+                return new ApiResponse<int>(false, 0, Messages.ErrorOccurred);
+            }
         }
 
         public async Task<ApiResponse<BatchDto>> UpdateBatch(int id, UpdateBatchDto batch)
